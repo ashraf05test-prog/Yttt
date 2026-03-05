@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Viral Pro 🔥</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#09090b;--surface:#18181b;--surface2:#27272a;
+  --border:#3f3f46;--accent:#8b5cf6;--accent2:#06b6d4;
+  --green:#22c55e;--red:#ef4444;--yellow:#f59e0b;
+  --text:#fafafa;--muted:#71717a;
+}
+body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--text);min-height:100vh}
+
+/* NAV */
+nav{background:var(--surface);border-bottom:1px solid var(--border);padding:0 20px;height:56px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:50}
+.nav-logo{font-size:18px;font-weight:800;background:linear-gradient(135deg,#8b5cf6,#06b6d4);-webkit-background-clip:text;-webkit-text-fill-color:transparent}
+.nav-right{display:flex;gap:10px;align-items:center}
+.yt-badge{padding:5px 14px;border-radius:20px;font-size:12px;font-weight:600;border:1px solid var(--border);cursor:pointer;display:flex;align-items:center;gap:6px;background:var(--surface2)}
+.yt-badge.on{border-color:var(--green);color:var(--green)}
+.yt-badge.off{border-color:var(--red);color:var(--red)}
+.nav-btn{padding:6px 14px;border-radius:8px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-size:13px;cursor:pointer}
+.nav-btn:hover{border-color:var(--accent)}
+
+/* TABS */
+.tabs{display:flex;gap:4px;padding:16px 20px 0;border-bottom:1px solid var(--border)}
+.tab{padding:8px 18px;border-radius:8px 8px 0 0;font-size:14px;font-weight:500;cursor:pointer;border:none;background:none;color:var(--muted)}
+.tab.active{background:var(--surface);color:var(--text);border:1px solid var(--border);border-bottom:1px solid var(--surface)}
+
+/* MAIN */
+.main{padding:20px;max-width:1200px;margin:0 auto}
+.panel{display:none}.panel.active{display:block}
+
+/* CARD */
+.card{background:var(--surface);border:1px solid var(--border);border-radius:14px;padding:20px;margin-bottom:16px}
+.card-title{font-size:15px;font-weight:700;margin-bottom:16px;display:flex;align-items:center;gap:8px}
+
+/* FORM */
+.fg{margin-bottom:14px}
+label{font-size:11px;color:var(--muted);display:block;margin-bottom:5px;text-transform:uppercase;letter-spacing:.5px;font-weight:600}
+input,select,textarea{width:100%;padding:10px 12px;border-radius:10px;border:1px solid var(--border);background:var(--surface2);color:var(--text);font-family:inherit;font-size:14px;outline:none;transition:border-color .2s}
+input:focus,select:focus,textarea:focus{border-color:var(--accent)}
+textarea{resize:vertical;min-height:70px}
+
+/* BUTTONS */
+.btn{padding:10px 18px;border-radius:10px;border:none;font-family:inherit;font-size:14px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:7px;transition:all .2s}
+.btn-primary{background:linear-gradient(135deg,var(--accent),#7c3aed);color:#fff}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 4px 20px rgba(139,92,246,.4)}
+.btn-success{background:var(--green);color:#fff}
+.btn-danger{background:var(--red);color:#fff}
+.btn-ghost{background:var(--surface2);color:var(--text);border:1px solid var(--border)}
+.btn-ghost:hover{border-color:var(--accent)}
+.btn-sm{padding:6px 12px;font-size:12px}
+.btn-full{width:100%;justify-content:center}
+.btn:disabled{opacity:.5;cursor:not-allowed;transform:none!important}
+
+/* BIG PROCESS BTN */
+.process-btn{width:100%;padding:14px;border-radius:12px;border:none;background:linear-gradient(135deg,#8b5cf6,#06b6d4);color:#fff;font-family:inherit;font-size:16px;font-weight:700;cursor:pointer;margin-top:8px;transition:all .3s;display:flex;align-items:center;justify-content:center;gap:10px}
+.process-btn:hover{transform:translateY(-2px);box-shadow:0 8px 25px rgba(139,92,246,.4)}
+.process-btn:disabled{opacity:.6;transform:none;cursor:not-allowed}
+
+/* PROGRESS */
+.progress-box{display:none;margin-top:14px}
+.progress-box.show{display:block}
+.progress-track{background:var(--surface2);border-radius:6px;height:8px;overflow:hidden;margin-bottom:8px}
+.progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--accent2));border-radius:6px;transition:width .5s;box-shadow:0 0 8px var(--accent)}
+.progress-msg{font-size:13px;color:var(--muted)}
+
+/* CLIPS */
+.clips-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-top:20px}
+.clip-card{background:var(--surface);border:1px solid var(--border);border-radius:14px;overflow:hidden;transition:border-color .2s,transform .2s}
+.clip-card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.clip-video{background:#000;aspect-ratio:9/16;max-height:360px;width:100%;display:flex;align-items:center;justify-content:center;position:relative}
+.clip-video video{width:100%;height:100%;object-fit:contain}
+.clip-rank{position:absolute;top:8px;left:8px;background:var(--accent);color:#fff;border-radius:20px;padding:2px 10px;font-size:11px;font-weight:700}
+.clip-body{padding:14px}
+.clip-hook{font-weight:700;font-size:13px;margin-bottom:4px}
+.clip-why{font-size:12px;color:var(--muted);margin-bottom:10px}
+.clip-tags{display:flex;gap:5px;flex-wrap:wrap;margin-bottom:10px}
+.tag{background:rgba(139,92,246,.15);color:var(--accent);border:1px solid rgba(139,92,246,.3);border-radius:20px;padding:2px 8px;font-size:11px}
+.edit-title,.edit-desc{width:100%;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:7px 10px;color:var(--text);font-family:inherit;font-size:12px;outline:none;margin-bottom:6px}
+.edit-title:focus,.edit-desc:focus{border-color:var(--accent)}
+.edit-desc{resize:none;height:60px}
+.clip-actions{display:flex;gap:7px;flex-wrap:wrap}
+
+/* MODAL */
+.modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.8);backdrop-filter:blur(4px);z-index:200;align-items:center;justify-content:center}
+.modal-bg.show{display:flex}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:18px;padding:24px;max-width:480px;width:92%;box-shadow:0 20px 60px rgba(0,0,0,.6)}
+.modal h3{font-size:17px;font-weight:700;margin-bottom:18px}
+.modal-actions{display:flex;gap:10px;margin-top:18px;justify-content:flex-end}
+
+/* TOAST */
+#toast{position:fixed;bottom:20px;right:20px;background:var(--surface);border:1px solid var(--border);border-radius:12px;padding:12px 18px;font-size:13px;z-index:999;transform:translateY(80px);opacity:0;transition:all .3s;max-width:320px}
+#toast.show{transform:translateY(0);opacity:1}
+#toast.ok{border-color:var(--green)}
+#toast.err{border-color:var(--red)}
+
+/* GRID */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+@media(max-width:600px){.g2{grid-template-columns:1fr}}
+
+/* API key */
+.key-wrap{position:relative}
+.key-wrap input{padding-right:38px;font-size:12px;font-family:monospace}
+.key-eye{position:absolute;right:10px;top:50%;transform:translateY(-50%);background:none;border:none;color:var(--muted);cursor:pointer;font-size:15px}
+
+.divider{height:1px;background:var(--border);margin:18px 0}
+.info-box{background:rgba(139,92,246,.1);border:1px solid rgba(139,92,246,.3);border-radius:10px;padding:12px;font-size:13px;color:#c4b5fd;margin-bottom:14px}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">⚡ Viral Pro</div>
+  <div class="nav-right">
+    <div class="yt-badge off" id="ytBadge" onclick="toggleYT()">
+      <span id="ytDot">●</span> <span id="ytText">YouTube</span>
+    </div>
+    <button class="nav-btn" onclick="openModal('settingsModal')">⚙️ Settings</button>
+  </div>
+</nav>
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('auto')">🤖 Auto Shorts</button>
+  <button class="tab" onclick="switchTab('manual')">✂️ Manual Crop</button>
+  <button class="tab" onclick="switchTab('schedule')">📅 Schedule</button>
+</div>
+
+<div class="main">
+
+  <!-- AUTO TAB -->
+  <div class="panel active" id="panel-auto">
+    <div class="card">
+      <div class="card-title">🔗 YouTube Video থেকে Shorts বানাও</div>
+      <div class="fg">
+        <label>YouTube URL</label>
+        <input type="url" id="videoUrl" placeholder="https://youtube.com/watch?v=..." />
+      </div>
+      <div class="g2">
+        <div class="fg">
+          <label>কয়টা Shorts চাও?</label>
+          <select id="numClips">
+            <option value="1">১টা</option>
+            <option value="3" selected>৩টা</option>
+            <option value="5">৫টা</option>
+            <option value="7">৭টা</option>
+            <option value="10">১০টা</option>
+          </select>
+        </div>
+        <div class="fg">
+          <label>AI Model</label>
+          <select id="aiModel">
+            <option value="gemini">Gemini + Groq</option>
+            <option value="gemini_only">Gemini Only</option>
+          </select>
+        </div>
+      </div>
+      <button class="process-btn" id="processBtn" onclick="startProcess()">
+        🚀 Viral Shorts বানাও
+      </button>
+      <div class="progress-box" id="progressBox">
+        <div class="progress-track"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+        <div class="progress-msg" id="progressMsg">শুরু হচ্ছে...</div>
+      </div>
+    </div>
+
+    <div id="clipsArea"></div>
+  </div>
+
+  <!-- MANUAL TAB -->
+  <div class="panel" id="panel-manual">
+    <div class="card">
+      <div class="card-title">✂️ Manual Crop</div>
+      <div class="fg">
+        <label>YouTube URL</label>
+        <input type="url" id="manualUrl" placeholder="https://youtube.com/watch?v=..." />
+      </div>
+      <div class="g2">
+        <div class="fg">
+          <label>Start Time (seconds)</label>
+          <input type="number" id="manualStart" placeholder="245" min="0" />
+        </div>
+        <div class="fg">
+          <label>End Time (seconds)</label>
+          <input type="number" id="manualEnd" placeholder="362" min="1" />
+        </div>
+      </div>
+      <div class="fg">
+        <label>Text Overlay (optional)</label>
+        <input type="text" id="manualText" placeholder="ভিডিওতে লেখা দেখাবে..." />
+      </div>
+      <button class="btn btn-primary btn-full" onclick="manualCrop()">✂️ Crop করো</button>
+      <div id="manualResult" style="margin-top:14px"></div>
+    </div>
+  </div>
+
+  <!-- SCHEDULE TAB -->
+  <div class="panel" id="panel-schedule">
+    <div class="card">
+      <div class="card-title">📅 Auto Upload Schedule</div>
+      <div class="info-box">
+        Google Drive এর public zip folder link দাও — টুলস random video নিয়ে auto upload করবে।
+      </div>
+      <div class="fg">
+        <label>Google Drive Folder Link</label>
+        <input type="url" id="driveLink" placeholder="https://drive.google.com/drive/folders/..." />
+      </div>
+      <div class="divider"></div>
+      <div class="card-title" style="font-size:13px">⏰ Upload Time</div>
+      <div class="g2">
+        <div class="fg">
+          <label>Time 1</label>
+          <input type="time" id="time1" value="12:00" />
+        </div>
+        <div class="fg">
+          <label>Time 2</label>
+          <input type="time" id="time2" value="20:00" />
+        </div>
+      </div>
+      <button class="btn btn-primary btn-full" onclick="saveSchedule()">💾 Schedule Save করো</button>
+    </div>
+  </div>
+
+</div>
+
+<!-- SETTINGS MODAL -->
+<div class="modal-bg" id="settingsModal">
+  <div class="modal">
+    <h3>⚙️ API Settings</h3>
+    <div class="fg">
+      <label>Groq API Key</label>
+      <div class="key-wrap">
+        <input type="password" id="groqKey" placeholder="gsk_..." />
+        <button class="key-eye" onclick="toggleKey('groqKey')">👁</button>
+      </div>
+    </div>
+    <div class="fg">
+      <label>Gemini API Key</label>
+      <div class="key-wrap">
+        <input type="password" id="geminiKey" placeholder="AIza..." />
+        <button class="key-eye" onclick="toggleKey('geminiKey')">👁</button>
+      </div>
+    </div>
+    <div class="divider"></div>
+    <div class="fg">
+      <label>YouTube Client ID</label>
+      <input type="text" id="ytClientId" placeholder="xxxx.apps.googleusercontent.com" />
+    </div>
+    <div class="fg">
+      <label>YouTube Client Secret</label>
+      <div class="key-wrap">
+        <input type="password" id="ytClientSecret" placeholder="GOCSPX-..." />
+        <button class="key-eye" onclick="toggleKey('ytClientSecret')">👁</button>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn btn-ghost" onclick="closeModal('settingsModal')">Cancel</button>
+      <button class="btn btn-primary" onclick="saveSettings()">💾 Save</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast"></div>
+
+<script>
+// ── State ──────────────────────────────────────────────────────────────────
+let currentJobId = null;
+let pollInterval = null;
+let videoPathForManual = null;
+
+// ── Init ───────────────────────────────────────────────────────────────────
+window.onload = async () => {
+  const cfg = await fetch('/api/config').then(r=>r.json());
+  document.getElementById('groqKey').value = cfg.groq_api_key || '';
+  document.getElementById('geminiKey').value = cfg.gemini_api_key || '';
+  document.getElementById('ytClientId').value = cfg.yt_client_id || '';
+  document.getElementById('ytClientSecret').value = cfg.yt_client_secret || '';
+  updateYTBadge(!!cfg.yt_access_token);
+  
+  if(location.search.includes('yt=connected')) {
+    toast('✅ YouTube connected!', 'ok');
+    history.replaceState({}, '', '/');
+  }
+};
+
+// ── Tabs ───────────────────────────────────────────────────────────────────
+function switchTab(name) {
+  document.querySelectorAll('.tab').forEach((t,i) => {
+    const names = ['auto','manual','schedule'];
+    t.classList.toggle('active', names[i] === name);
+  });
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.getElementById(`panel-${name}`).classList.add('active');
+}
+
+// ── Process ────────────────────────────────────────────────────────────────
+async function startProcess() {
+  const url = document.getElementById('videoUrl').value.trim();
+  const numClips = document.getElementById('numClips').value;
+  if (!url) { toast('YouTube URL দাও!', 'err'); return; }
+
+  document.getElementById('processBtn').disabled = true;
+  document.getElementById('processBtn').textContent = '⏳ Processing...';
+  document.getElementById('progressBox').classList.add('show');
+  document.getElementById('clipsArea').innerHTML = '';
+  setProgress(5, 'শুরু হচ্ছে...');
+
+  const res = await fetch('/api/process', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({url, num_clips: numClips})
+  }).then(r=>r.json());
+
+  currentJobId = res.job_id;
+  pollInterval = setInterval(pollJob, 2000);
+}
+
+async function pollJob() {
+  if (!currentJobId) return;
+  const job = await fetch(`/api/job/${currentJobId}`).then(r=>r.json());
+  setProgress(job.progress || 0, job.message || '...');
+
+  if (job.status === 'done') {
+    clearInterval(pollInterval);
+    document.getElementById('processBtn').disabled = false;
+    document.getElementById('processBtn').textContent = '🚀 Viral Shorts বানাও';
+    renderClips(job.clips || []);
+    toast(`✅ ${(job.clips||[]).length}টা clip তৈরি!`, 'ok');
+  } else if (job.status === 'error') {
+    clearInterval(pollInterval);
+    document.getElementById('processBtn').disabled = false;
+    document.getElementById('processBtn').textContent = '🚀 Viral Shorts বানাও';
+    toast('❌ ' + job.message, 'err');
+  }
+}
+
+function setProgress(pct, msg) {
+  document.getElementById('progressFill').style.width = pct + '%';
+  document.getElementById('progressMsg').textContent = msg;
+}
+
+// ── Render Clips ──────────────────────────────────────────────────────────
+function renderClips(clips) {
+  if (!clips.length) {
+    document.getElementById('clipsArea').innerHTML = '<p style="color:var(--muted);text-align:center;padding:20px">কোনো clip তৈরি হয়নি 😢</p>';
+    return;
+  }
+  const grid = document.createElement('div');
+  grid.className = 'clips-grid';
+  clips.forEach(clip => {
+    const tags = (clip.hashtags||[]).map(t=>`<span class="tag">${t}</span>`).join('');
+    grid.innerHTML += `
+    <div class="clip-card">
+      <div class="clip-video">
+        <span class="clip-rank">#${clip.rank}</span>
+        <video src="${clip.preview_url}" controls playsinline></video>
+      </div>
+      <div class="clip-body">
+        <div class="clip-hook">${clip.hook || ''}</div>
+        <div class="clip-why">${clip.why_viral || ''}</div>
+        <div class="clip-tags">${tags}</div>
+        <input class="edit-title" id="title_${clip.clip_name}" value="${clip.title||''}" placeholder="Title..." />
+        <textarea class="edit-desc" id="desc_${clip.clip_name}" placeholder="Description...">${clip.description||''}</textarea>
+        <div class="clip-actions">
+          <button class="btn btn-ghost btn-sm" onclick="genMeta('${clip.clip_name}','${(clip.hook||'').replace(/'/g,"\\'")}','${(clip.why_viral||'').replace(/'/g,"\\'")}')">🤖 AI Meta</button>
+          <button class="btn btn-primary btn-sm" onclick="uploadClip('${clip.clip_name}')">📤 Upload</button>
+          <a href="${clip.preview_url}" download class="btn btn-ghost btn-sm">⬇️</a>
+        </div>
+        <div id="upload_status_${clip.clip_name}" style="font-size:12px;color:var(--muted);margin-top:6px"></div>
+      </div>
+    </div>`;
+  });
+  document.getElementById('clipsArea').appendChild(grid);
+}
+
+// ── AI Meta ───────────────────────────────────────────────────────────────
+async function genMeta(clipName, hook, why) {
+  toast('🤖 AI generating...', 'ok');
+  const res = await fetch('/api/generate-meta', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({hook, why_viral: why})
+  }).then(r=>r.json());
+  if (res.title) document.getElementById(`title_${clipName}`).value = res.title;
+  if (res.description) document.getElementById(`desc_${clipName}`).value = res.description;
+  toast('✅ Meta generated!', 'ok');
+}
+
+// ── Upload ────────────────────────────────────────────────────────────────
+async function uploadClip(clipName) {
+  const title = document.getElementById(`title_${clipName}`).value;
+  const desc = document.getElementById(`desc_${clipName}`).value;
+  const statusEl = document.getElementById(`upload_status_${clipName}`);
+  statusEl.textContent = '⏳ Uploading...';
+
+  const res = await fetch('/api/upload', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({clip_name: clipName, title, description: desc, tags: []})
+  }).then(r=>r.json());
+
+  const poll = setInterval(async () => {
+    const job = await fetch(`/api/job/${res.job_id}`).then(r=>r.json());
+    statusEl.textContent = job.message;
+    if (job.status === 'done' || job.status === 'error') {
+      clearInterval(poll);
+      if (job.status === 'done') toast('✅ Uploaded to YouTube!', 'ok');
+    }
+  }, 2000);
+}
+
+// ── Manual Crop ───────────────────────────────────────────────────────────
+async function manualCrop() {
+  const url = document.getElementById('manualUrl').value.trim();
+  const start = document.getElementById('manualStart').value;
+  const end = document.getElementById('manualEnd').value;
+  const text = document.getElementById('manualText').value;
+
+  if (!url || !start || !end) { toast('URL, start, end দাও!', 'err'); return; }
+
+  document.getElementById('manualResult').innerHTML = '<p style="color:var(--muted)">⏳ Cropping...</p>';
+  const res = await fetch('/api/manual-crop', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({url, start, end, text})
+  }).then(r=>r.json());
+
+  if (res.error) { toast('❌ ' + res.error, 'err'); return; }
+
+  setTimeout(() => {
+    document.getElementById('manualResult').innerHTML = `
+      <div class="clip-card" style="max-width:300px">
+        <div class="clip-video">
+          <video src="${res.preview_url}" controls playsinline></video>
+        </div>
+        <div class="clip-body">
+          <div class="clip-actions">
+            <button class="btn btn-primary btn-sm" onclick="uploadClipDirect('${res.clip_name}')">📤 Upload</button>
+            <a href="${res.preview_url}" download class="btn btn-ghost btn-sm">⬇️</a>
+          </div>
+        </div>
+      </div>`;
+  }, 8000);
+}
+
+// ── YouTube ───────────────────────────────────────────────────────────────
+function updateYTBadge(connected) {
+  const badge = document.getElementById('ytBadge');
+  const text = document.getElementById('ytText');
+  badge.className = 'yt-badge ' + (connected ? 'on' : 'off');
+  text.textContent = connected ? 'Connected' : 'Connect YT';
+}
+
+async function toggleYT() {
+  const cfg = await fetch('/api/config').then(r=>r.json());
+  if (cfg.yt_access_token) {
+    await fetch('/api/yt-disconnect', {method:'POST'});
+    updateYTBadge(false);
+    toast('YouTube disconnected', 'err');
+  } else {
+    const res = await fetch('/api/yt-auth-url').then(r=>r.json());
+    if (res.auth_url) window.location.href = res.auth_url;
+    else toast('❌ YouTube Client ID settings এ দাও!', 'err');
+  }
+}
+
+// ── Settings ──────────────────────────────────────────────────────────────
+async function saveSettings() {
+  await fetch('/api/config', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({
+      groq_api_key: document.getElementById('groqKey').value,
+      gemini_api_key: document.getElementById('geminiKey').value,
+      yt_client_id: document.getElementById('ytClientId').value,
+      yt_client_secret: document.getElementById('ytClientSecret').value,
+    })
+  });
+  closeModal('settingsModal');
+  toast('✅ Settings saved!', 'ok');
+}
+
+async function saveSchedule() {
+  await fetch('/api/config', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({
+      drive_link: document.getElementById('driveLink').value,
+      schedule_time1: document.getElementById('time1').value,
+      schedule_time2: document.getElementById('time2').value,
+    })
+  });
+  toast('✅ Schedule saved!', 'ok');
+}
+
+// ── Helpers ───────────────────────────────────────────────────────────────
+function openModal(id) { document.getElementById(id).classList.add('show') }
+function closeModal(id) { document.getElementById(id).classList.remove('show') }
+function toggleKey(id) {
+  const el = document.getElementById(id);
+  el.type = el.type === 'password' ? 'text' : 'password';
+}
+
+function toast(msg, type='ok') {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.className = `show ${type}`;
+  setTimeout(() => t.className = '', 3500);
+}
+
+document.querySelectorAll('.modal-bg').forEach(m => {
+  m.addEventListener('click', e => { if(e.target === m) m.classList.remove('show') });
+});
+</script>
+</body>
+</html>

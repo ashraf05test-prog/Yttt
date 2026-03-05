@@ -410,8 +410,7 @@ async function uploadClip(clipName) {
   }, 2000);
 }
 
-// ── Manual Crop ───────────────────────────────────────────────────────────
-async function manualCrop() {
+// ── Manual Crop ───────────────────────────────────────────────────────────async function manualCrop() {
   const url = document.getElementById('manualUrl').value.trim();
   const start = document.getElementById('manualStart').value;
   const end = document.getElementById('manualEnd').value;
@@ -419,7 +418,8 @@ async function manualCrop() {
 
   if (!url || !start || !end) { toast('URL, start, end দাও!', 'err'); return; }
 
-  document.getElementById('manualResult').innerHTML = '<p style="color:var(--muted)">⏳ Cropping...</p>';
+  document.getElementById('manualResult').innerHTML = '<p style="color:#a78bfa">⏳ শুরু হচ্ছে...</p>';
+
   const res = await fetch('/api/manual-crop', {
     method:'POST', headers:{'Content-Type':'application/json'},
     body: JSON.stringify({url, start, end, text})
@@ -427,22 +427,33 @@ async function manualCrop() {
 
   if (res.error) { toast('❌ ' + res.error, 'err'); return; }
 
-  setTimeout(() => {
-    document.getElementById('manualResult').innerHTML = `
-      <div class="clip-card" style="max-width:300px">
-        <div class="clip-video">
-          <video src="${res.preview_url}" controls playsinline></video>
-        </div>
-        <div class="clip-body">
-          <div class="clip-actions">
-            <button class="btn btn-primary btn-sm" onclick="uploadClipDirect('${res.clip_name}')">📤 Upload</button>
-            <a href="${res.preview_url}" download class="btn btn-ghost btn-sm">⬇️</a>
-          </div>
-        </div>
-      </div>`;
-  }, 8000);
+  const poll = setInterval(async () => {
+    const job = await fetch(`/api/job/${res.job_id}`).then(r=>r.json());
+    document.getElementById('manualResult').innerHTML = `<p style="color:#a78bfa">⏳ ${job.message}</p>`;
+    if (job.status === 'done') {
+      clearInterval(poll);
+      document.getElementById('manualResult').innerHTML = `
+        <video src="${job.preview_url}" controls playsinline style="width:100%;border-radius:12px;margin-top:10px"></video>
+        <div style="display:flex;gap:8px;margin-top:8px">
+          <button class="btn btn-primary btn-sm" onclick="uploadManual('${job.clip_name}')">📤 Upload</button>
+          <a href="${job.preview_url}" download class="btn btn-ghost btn-sm">⬇️ Download</a>
+        </div>`;
+      toast('✅ Clip ready!', 'ok');
+    } else if (job.status === 'error') {
+      clearInterval(poll);
+      document.getElementById('manualResult').innerHTML = `<p style="color:#ef4444">❌ ${job.message}</p>`;
+    }
+  }, 3000);
 }
 
+async function uploadManual(clipName) {
+  const title = prompt('Title:') || 'Amazing Short';
+  await fetch('/api/upload', {
+    method:'POST', headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({clip_name: clipName, title, description:'', tags:[]})
+  });
+  toast('⏳ Uploading...', 'ok');
+    }
 // ── YouTube ───────────────────────────────────────────────────────────────
 function updateYTBadge(connected) {
   const badge = document.getElementById('ytBadge');

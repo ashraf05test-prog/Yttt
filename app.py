@@ -35,9 +35,15 @@ def get_video_id(url):
 # ── Piped API ────────────────────────────────────────────────────────────────
 PIPED_INSTANCES = [
     "https://pipedapi.kavin.rocks",
-    "https://pipedapi.reallyaweso.me",
+    "https://pipedapi-libre.kavin.rocks",
+    "https://pipedapi.leptons.xyz",
+    "https://pipedapi.nosebs.ru",
     "https://piped-api.privacy.com.de",
+    "https://pipedapi.adminforge.de",
     "https://api.piped.yt",
+    "https://pipedapi.drgns.space",
+    "https://pipedapi.reallyaweso.me",
+    "https://piped.yt/api",
 ]
 
 def get_stream_url(video_id):
@@ -225,6 +231,24 @@ def youtube_upload(video_path, title, description, tags, access_token):
         return None, str(e)
 
 # ── Routes ────────────────────────────────────────────────────────────────────
+@app.route('/test')
+def test_piped():
+    results = []
+    for instance in PIPED_INSTANCES:
+        try:
+            r = requests.get(f"{instance}/streams/dQw4w9WgXcQ", timeout=8,
+                           headers={"User-Agent": "Mozilla/5.0"})
+            if r.status_code == 200:
+                streams = len(r.json().get('videoStreams', []))
+                results.append(f"✅ {instance} — {streams} streams")
+            else:
+                results.append(f"❌ {instance} — HTTP {r.status_code}")
+        except Exception as e:
+            results.append(f"❌ {instance} — {str(e)[:80]}")
+    html = "<h2 style='font-family:monospace'>Piped API Test Results</h2><pre style='font-family:monospace;font-size:13px'>"
+    html += "\n".join(results) + "</pre><br><a href='/'>← Back</a>"
+    return html
+
 @app.route('/')
 def index():
     return render_template('index.html', config=load_config())
